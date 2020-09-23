@@ -4,10 +4,11 @@
     ViewBag.Title = "Collections";
 }
 
-<h2>Collections</h2>
+
+<h2>Коллекции</h2>
 
 <div>
-    <h4>CreateCollectionViewModel</h4>
+    
     <hr />
     <dl class="dl-horizontal">
         <table border="1">
@@ -16,26 +17,26 @@
             {
 
                 @*@foreach (var item in collection.Items)
-            {*@
+                {*@
                 @*<tr>
-                <td>
-                    @Html.DisplayName(collection.Name)
-                </td>
-                <td>
-                    @Html.DisplayName(collection.Description)
-                </td>
-            </tr>*@
+                    <td>
+                        @Html.DisplayName(collection.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayName(collection.Description)
+                    </td>
+                </tr>*@
 
                 <tr>
                     <td>
                         @collection.name
                     </td>
                     <td>
-                        @collection.description
+                        @Html.Raw(@collection.description)
                     </td>
-                
 
-                
+
+
                     <td>
                         <form action="Delete" asp-route-id="@collection.id" method="post">
                             <input type="hidden" name="id" id="id" value="@collection.id" />
@@ -45,18 +46,26 @@
                         </form>
                     </td>
                     <td>
-                            @using (Html.BeginForm("Collection", "Home"))
-                            {
+                        @using (Html.BeginForm("Collection", "Home"))
+                        {
                             <input type="hidden" name="id" id="id" value="@collection.id" />
                             <input type="submit" class="btn btn-sm btn-outline-info" value="Показать коллекцию" />
-                            }
+                        }
 
                     </td>
-                  </tr>
+                </tr>
                 //}
 
-              }
+            }
         </table>
-       
+        @using (Html.BeginForm("CreateCollection", "Home", FormMethod.Get))
+        {
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Создать коллекцию" class="btn btn-default" />
+                </div>
+            </div>
+        }
+
     </dl>
 </div>

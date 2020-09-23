@@ -4,10 +4,10 @@
     ViewBag.Title = "Collection";
 }
 
-<h2>Collection</h2>
+<h2>Коллекция</h2>
 
 <div>
-    <h4>CollectionIt</h4>
+    
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -23,7 +23,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.description)
+            @Html.Raw(Model.description)
         </dd>
 
         <dt>
@@ -40,32 +40,43 @@
         <tr><th>Название item</th><th>Описание</th><th colspan="2">Редактирование</th></tr>
         @foreach (var item in Model.Items)
         {
-            <tr>
-                <td>
-                    @item.name
-                </td>
-                <td>
-                    @item.description
-                </td>
-            
+    <tr>
+        <td>
+            @item.name
+        </td>
+        <td>
+            @item.description
+        </td>
+        <td>
+            @using (Html.BeginForm("DeleteItem", "Home"))
+            {
+                <input type="hidden" name="id" id="id" value="@item.id" />
+                <input type="hidden" name="collectionId" id="collectionId" value="@Model.id" />
+                <button type="submit" class="btn btn-sm btn-outline-info">
+                    Удалить
+                </button>
+            }
+        </td>
+         <td>
 
-                <td>
-                    <form action="DeleteItem" asp-route-id="@item.id" method="post">
-                        <input type="hidden" name="id" id="id" value="@item.id" />
-                        <button type="submit" class="btn btn-sm btn-outline-info">
-                            Удалить
-                        </button>
-                    </form>
-                </td>
-                
-                    @*@using (Html.BeginForm("Collection", "Home"))
-                    {
-                        <input type="hidden" name="id" id="id" value="@item.id" />
-                        <input type="submit" class="btn btn-sm btn-outline-info" value="Показать айтем" />
-                    }*@
+            @using (Html.BeginForm("Item", "Home"))
+            {
+                <input type="hidden" name="id" id="id" value="@item.id" />
+                <input type="submit" class="btn btn-sm btn-outline-info" value="Показать айтем" />
+            }
+         </td>
 
-                 
-             </tr>
+
+
+
+        @*@using (Html.BeginForm("Collection", "Home"))
+        {
+            <input type="hidden" name="id" id="id" value="@item.id" />
+            <input type="submit" class="btn btn-sm btn-outline-info" value="Показать айтем" />
+        }*@
+
+
+    </tr>
             
             
 

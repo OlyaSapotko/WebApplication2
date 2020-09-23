@@ -1,0 +1,66 @@
+﻿@model List<WebApplication2.Models.ApplicationUser>
+@{
+    ViewBag.Title = "Admin";
+}
+
+<h2>Админ</h2>
+
+<div>
+
+    <hr />
+    <dl class="dl-horizontal">
+        <table border="1">
+            <tr><th>Пользователь</th><th>Редактирование</th></tr>
+            @foreach (var user in Model)
+            {
+
+                @*@foreach (var item in collection.Items)
+            {*@
+                @*<tr>
+                <td>
+                    @Html.DisplayName(collection.Name)
+                </td>
+                <td>
+                    @Html.DisplayName(collection.Description)
+                </td>
+            </tr>*@
+
+                <tr>
+                    <td>
+                        @user.Email
+                    </td>
+                    <td>
+                        @using (Html.BeginForm("ChangeAdmin", "Home"))
+                        {
+                            <div class="form-group">
+
+                                <input type="submit" value="Сделать админом" />
+
+                            </div>
+
+                        }
+                    </td>
+                </tr>
+                
+
+            }
+
+
+
+
+
+
+
+
+        </table>
+        @*@using (Html.BeginForm("CreateCollection", "Home", FormMethod.Get))
+            {
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Создать коллекцию" class="btn btn-default" />
+                    </div>
+                </div>
+            }*@
+
+    </dl>
+</div>

@@ -1,0 +1,62 @@
+﻿@model WebApplication2.Entity.Item
+
+@{
+    ViewBag.Title = "Item";
+}
+
+<h2>Айтем</h2>
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.collectionItId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.collectionItId)
+        </dd>
+
+    </dl>
+    <span>@Model.LikeItems.Count</span>
+    @using (Html.BeginForm("LikeItem", "Home", FormMethod.Post))
+    {
+        <input type="hidden" name="itemId" id="itemId" value="@Model.id" />
+        <button type="submit" class="btn btn-sm btn-outline-info">
+            Like
+        </button>
+    }
+    <h2>Комментарии</h2>
+    @using(Html.BeginForm("Comment","Home"))
+    {
+    <input type="hidden" value="@Model.id" name="itemId" id="itemId" />
+    <input type="text" name="text" id="text" />
+    <input type="submit" value="Добавить" />
+    }
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.text, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.text, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>*@
+    @foreach (var comment in Model.Comments)
+    {
+        <span style="color: red">@comment.ApplicationUser.UserName</span><span>@comment.text</span><br />
+    }
+</div>

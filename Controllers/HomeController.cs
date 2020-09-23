@@ -63,6 +63,34 @@ namespace WebApplication2.Controllers
             return View(new CreateItemViewModel() { collectionId = id});
         }
 
+        public ActionResult ChangeAdmin(string userId)
+        {
+           var myid = User.Identity.GetUserId();
+            if (!String.IsNullOrEmpty(userId))
+            {
+                 myid = userId;
+            }
+
+            var user = db.Users.First(x => x.Id == myid);
+            if (user.IsAdmin)
+                user.IsAdmin = false;
+            else
+                user.IsAdmin = true;
+
+            db.SaveChanges();
+            return View("Index", "Home");
+        }
+
+        public ActionResult Admin()
+        {
+            var myid = User.Identity.GetUserId();
+            var user = db.Users.First(x => x.Id == myid);
+            if (user.IsAdmin)
+                return View(db.Users.ToList());
+            else
+                return View("Error");
+        }
+
         [HttpPost]
         public async Task<ActionResult> CreateItem(CreateItemViewModel model)
         {
@@ -81,20 +109,82 @@ namespace WebApplication2.Controllers
             return RedirectToAction($"Collection/{model.collectionId}");
         }
 
+        [HttpPost]
+        [Authorize]
+        public ActionResult LikeItem(int itemId)
+        {
+            var myId = User.Identity.GetUserId();
+            if (IsUserLike(itemId, myId))
+                RemoveLike(itemId, myId);
+            else
+                AddLike(itemId, myId);
+
+            return Redirect($"Item/{itemId}");
+        }
+
+        private bool IsUserLike(int itemId, string userId)
+           => db.Items.First(x => x.id == itemId).LikeItems.Count(x => x.ApplicationUserId == userId) > 0;
+
+        public void AddLike(int itemId, string userId)
+        {
+            db.Items.First(x => x.id == itemId).LikeItems.Add(new LikeItem()
+            {
+                ItemId = itemId,
+                ApplicationUserId = userId
+            });
+            db.SaveChanges();
+        }
+
+        public void RemoveLike(int itemId, string userId)
+        {
+            db.likeItems.Remove(db.likeItems.First(x => x.ItemId == itemId && x.ApplicationUserId == userId));
+            //db.Items.First(x => x.id == itemId)
+            //    .LikeItems
+            //    .Remove(db.likeItems.First(x => x.ItemId == itemId 
+            //&& x.ApplicationUserId == userId));
+            db.SaveChanges();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Comment(int itemId, string text)
+        {
+            var myId = User.Identity.GetUserId();
+            AddComment(itemId, myId, text);
+            return Redirect($"Item/{itemId}");
+        }
+
+        public void AddComment(int itemId, string userId, string text)
+        {
+            db.Items.First(x => x.id == itemId).Comments.Add(new Comment() { ApplicationUserId = userId, text = text });
+            db.SaveChanges();
+          
+        }
+
         
+
 
         public ActionResult Collection(int id)
         {
-            return View(db.CollectionIts.Find(id));
+            var collection = db.CollectionIts.Find(id);
+            collection.description = Markdig.Markdown.ToHtml(collection.description);
+            return View(collection);
         }
+
+        public ActionResult Item(int id)
+        {
+            var item = db.Items.Find(id);
+            return View(db.Items.Find(id));
+        }
+
 
         public ActionResult Collections()
         {
             var collections = db.CollectionIts.ToList();
             List<CreateCollectionViewModel> outputList = new List<CreateCollectionViewModel>();
 
-            collections.ForEach(x => outputList.Add(new CreateCollectionViewModel() { Name = x.name, Description = x.description }));
-
+            //collections.ForEach(x => outputList.Add(new CreateCollectionViewModel() { Name = x.name, Description = Markdig.Markdown.ToHtml(x.description) }));
+            collections.ForEach(x =>x.description = Markdig.Markdown.ToHtml(x.description));
 
             //foreach (var item in collections)
             //{
@@ -109,19 +199,7 @@ namespace WebApplication2.Controllers
         }
 
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
+        
 
         [HttpPost]
         public ActionResult Delete(int id)
@@ -131,13 +209,14 @@ namespace WebApplication2.Controllers
             return RedirectToAction("Collections");
         }
         [HttpPost]
-        public ActionResult DeleteItem(int id)
+        public ActionResult DeleteItem(int id, int collectionId)
         {
             Item i = new Item { id = id };
             db.Entry(i).State = System.Data.Entity.EntityState.Deleted;
             //db.Items.Remove(db.Items.FirstOrDefault(y => y.id == id));
             db.SaveChanges();
-            return RedirectToAction("Collection");
+            return RedirectToAction($"Collection/{collectionId}");
         }
+
     }
 }

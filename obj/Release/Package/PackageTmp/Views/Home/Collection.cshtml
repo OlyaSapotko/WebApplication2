@@ -1,0 +1,95 @@
+﻿@model WebApplication2.Entity.CollectionIt
+
+@{
+    ViewBag.Title = "Collection";
+}
+
+<h2>Коллекция</h2>
+
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationUserId)
+        </dd>
+
+    </dl>
+
+    <table border="1">
+        <tr><th>Название item</th><th>Описание</th><th colspan="2">Редактирование</th></tr>
+        @foreach (var item in Model.Items)
+        {
+    <tr>
+        <td>
+            @item.name
+        </td>
+        <td>
+            @item.description
+        </td>
+        <td>
+            @using (Html.BeginForm("DeleteItem", "Home"))
+            {
+                <input type="hidden" name="id" id="id" value="@item.id" />
+                <input type="hidden" name="collectionId" id="collectionId" value="@Model.id" />
+                <button type="submit" class="btn btn-sm btn-outline-info">
+                    Удалить
+                </button>
+            }
+        </td>
+         <td>
+
+            @using (Html.BeginForm("Item", "Home"))
+            {
+                <input type="hidden" name="id" id="id" value="@item.id" />
+                <input type="submit" class="btn btn-sm btn-outline-info" value="Показать айтем" />
+            }
+         </td>
+
+
+
+
+        @*@using (Html.BeginForm("Collection", "Home"))
+        {
+            <input type="hidden" name="id" id="id" value="@item.id" />
+            <input type="submit" class="btn btn-sm btn-outline-info" value="Показать айтем" />
+        }*@
+
+
+    </tr>
+            
+            
+
+        }
+    </table>
+
+    @using (Html.BeginForm("CreateItem", "Home", FormMethod.Get))
+    {
+        <input type="hidden" name="id" id="id" value="@Model.id" />
+        <input type="submit" class="btn btn-sm btn-outline-info" value="Создать " />
+    }
+</div>
+@*@<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>*@
