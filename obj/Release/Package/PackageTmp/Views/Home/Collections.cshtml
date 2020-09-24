@@ -4,6 +4,7 @@
     ViewBag.Title = "Collections";
 }
 
+
 <h2>Коллекции</h2>
 
 <div>
@@ -31,7 +32,7 @@
                         @collection.name
                     </td>
                     <td>
-                        @collection.description
+                        @Html.Raw(@collection.description)
                     </td>
 
 

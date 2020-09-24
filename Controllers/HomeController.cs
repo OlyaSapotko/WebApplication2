@@ -36,12 +36,14 @@ namespace WebApplication2.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult CreateCollection()
         {
             return View();
         }
 
         [HttpPost]
+       
         public async Task<ActionResult> CreateCollection(CreateCollectionViewModel model)
         {
             db.CollectionIts.Add(new CollectionIt()
@@ -58,6 +60,7 @@ namespace WebApplication2.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult CreateItem(int id)
         {
             return View(new CreateItemViewModel() { collectionId = id});

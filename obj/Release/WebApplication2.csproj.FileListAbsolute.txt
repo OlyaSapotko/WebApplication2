@@ -125,3 +125,13 @@ C:\New\WebApplication2\obj\Release\WebApplication2.csproj.CoreCompileInputs.cach
 C:\New\WebApplication2\obj\Release\WebApplication2.csproj.CopyComplete
 C:\New\WebApplication2\obj\Release\WebApplication2.dll
 C:\New\WebApplication2\obj\Release\WebApplication2.pdb
+C:\New\WebApplication2\bin\Markdig.dll
+C:\New\WebApplication2\bin\System.Buffers.dll
+C:\New\WebApplication2\bin\System.Memory.dll
+C:\New\WebApplication2\bin\System.Numerics.Vectors.dll
+C:\New\WebApplication2\bin\System.Runtime.CompilerServices.Unsafe.dll
+C:\New\WebApplication2\bin\Markdig.xml
+C:\New\WebApplication2\bin\System.Buffers.xml
+C:\New\WebApplication2\bin\System.Memory.xml
+C:\New\WebApplication2\bin\System.Numerics.Vectors.xml
+C:\New\WebApplication2\bin\System.Runtime.CompilerServices.Unsafe.xml
