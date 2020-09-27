@@ -26,8 +26,9 @@ namespace WebApplication2.Controllers
 
             }
         }
+
         ApplicationDbContext db = new ApplicationDbContext();
-        //   CollectionItContext db = new CollectionItContext();
+        
         public ActionResult Index()
         {
             IEnumerable<CollectionIt> collectionIts = db.CollectionIts;
@@ -42,20 +43,16 @@ namespace WebApplication2.Controllers
             return View();
         }
 
-        [HttpPost]
-       
+        [HttpPost]       
         public async Task<ActionResult> CreateCollection(CreateCollectionViewModel model)
         {
             db.CollectionIts.Add(new CollectionIt()
             {
                 name = model.Name,
                 description = model.Description,
-                ApplicationUserId = "eqweqfwerqwe"
+                //ApplicationUserId = "qwert"
             });
-
-            db.SaveChanges();
-
-            //return View();
+            db.SaveChanges();           
             return RedirectToAction("Collections");
         }
 
@@ -164,9 +161,6 @@ namespace WebApplication2.Controllers
           
         }
 
-        
-
-
         public ActionResult Collection(int id)
         {
             var collection = db.CollectionIts.Find(id);
@@ -201,9 +195,6 @@ namespace WebApplication2.Controllers
             return View(collections);
         }
 
-
-        
-
         [HttpPost]
         public ActionResult Delete(int id)
         {
@@ -216,10 +207,8 @@ namespace WebApplication2.Controllers
         {
             Item i = new Item { id = id };
             db.Entry(i).State = System.Data.Entity.EntityState.Deleted;
-            //db.Items.Remove(db.Items.FirstOrDefault(y => y.id == id));
             db.SaveChanges();
             return RedirectToAction($"Collection/{collectionId}");
         }
-
     }
 }

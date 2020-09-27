@@ -6,12 +6,11 @@
 
 <h2>Коллекция</h2>
 
-<div>
-    
+<div>   
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.name)
+            <p>Название коллекции</p>
         </dt>
 
         <dd>
@@ -19,21 +18,12 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.description)
+            <p>Описание</p>
         </dt>
 
         <dd>
             @Html.Raw(Model.description)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ApplicationUserId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ApplicationUserId)
-        </dd>
-
     </dl>
 
     <table border="1">
@@ -65,21 +55,7 @@
                 <input type="submit" class="btn btn-sm btn-outline-info" value="Показать айтем" />
             }
          </td>
-
-
-
-
-        @*@using (Html.BeginForm("Collection", "Home"))
-        {
-            <input type="hidden" name="id" id="id" value="@item.id" />
-            <input type="submit" class="btn btn-sm btn-outline-info" value="Показать айтем" />
-        }*@
-
-
-    </tr>
-            
-            
-
+    </tr>                       
         }
     </table>
 
@@ -89,7 +65,4 @@
         <input type="submit" class="btn btn-sm btn-outline-info" value="Создать " />
     }
 </div>
-@*@<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>*@
+

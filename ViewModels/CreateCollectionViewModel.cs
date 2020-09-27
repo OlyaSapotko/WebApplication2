@@ -12,8 +12,6 @@ namespace WebApplication2.ViewModels
         public string Name { get; set; }
 
         [Display(Name="Описание")]
-        public string Description { get; set; }
-        //public string AvatarLink { get; set; }
-        
+        public string Description { get; set; }        
     }
 }
