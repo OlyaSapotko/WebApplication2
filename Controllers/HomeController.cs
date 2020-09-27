@@ -157,8 +157,7 @@ namespace WebApplication2.Controllers
         public void AddComment(int itemId, string userId, string text)
         {
             db.Items.First(x => x.id == itemId).Comments.Add(new Comment() { ApplicationUserId = userId, text = text });
-            db.SaveChanges();
-          
+            db.SaveChanges();          
         }
 
         public ActionResult Collection(int id)
