@@ -10,7 +10,7 @@
     <hr />
     <dl class="dl-horizontal">
         <table border="1">
-            <tr><th>Пользователь</th><th>Редактирование</th></tr>
+            <tr><th>Пользователь</th><th colspan="2">Редактирование</th></tr>
             @foreach (var user in Model)
             {              
                 <tr>
@@ -22,6 +22,14 @@
                         {
                             <div class="form-group">
                                 <input type="submit" value="Сделать админом" />
+                            </div>
+                        }
+                    </td>
+                    <td>
+                        @using(Html.BeginForm("DeleteUser", "Home"))
+                        {
+                            <div class="form-group">
+                                <input type="submit" value="Удалить" />
                             </div>
                         }
                     </td>

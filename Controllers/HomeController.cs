@@ -28,7 +28,7 @@ namespace WebApplication2.Controllers
         }
 
         ApplicationDbContext db = new ApplicationDbContext();
-        
+
         public ActionResult Index()
         {
             IEnumerable<CollectionIt> collectionIts = db.CollectionIts;
@@ -43,7 +43,7 @@ namespace WebApplication2.Controllers
             return View();
         }
 
-        [HttpPost]       
+        [HttpPost]
         public async Task<ActionResult> CreateCollection(CreateCollectionViewModel model)
         {
             db.CollectionIts.Add(new CollectionIt()
@@ -52,7 +52,7 @@ namespace WebApplication2.Controllers
                 description = model.Description,
                 //ApplicationUserId = "qwert"
             });
-            db.SaveChanges();           
+            db.SaveChanges();
             return RedirectToAction("Collections");
         }
 
@@ -60,15 +60,15 @@ namespace WebApplication2.Controllers
         [Authorize]
         public ActionResult CreateItem(int id)
         {
-            return View(new CreateItemViewModel() { collectionId = id});
+            return View(new CreateItemViewModel() { collectionId = id });
         }
 
         public ActionResult ChangeAdmin(string userId)
         {
-           var myid = User.Identity.GetUserId();
+            var myid = User.Identity.GetUserId();
             if (!String.IsNullOrEmpty(userId))
             {
-                 myid = userId;
+                myid = userId;
             }
 
             var user = db.Users.First(x => x.Id == myid);
@@ -157,7 +157,7 @@ namespace WebApplication2.Controllers
         public void AddComment(int itemId, string userId, string text)
         {
             db.Items.First(x => x.id == itemId).Comments.Add(new Comment() { ApplicationUserId = userId, text = text });
-            db.SaveChanges();          
+            db.SaveChanges();
         }
 
         public ActionResult Collection(int id)
@@ -180,7 +180,7 @@ namespace WebApplication2.Controllers
             List<CreateCollectionViewModel> outputList = new List<CreateCollectionViewModel>();
 
             //collections.ForEach(x => outputList.Add(new CreateCollectionViewModel() { Name = x.name, Description = Markdig.Markdown.ToHtml(x.description) }));
-            collections.ForEach(x =>x.description = Markdig.Markdown.ToHtml(x.description));
+            collections.ForEach(x => x.description = Markdig.Markdown.ToHtml(x.description));
 
             //foreach (var item in collections)
             //{
@@ -209,5 +209,16 @@ namespace WebApplication2.Controllers
             db.SaveChanges();
             return RedirectToAction($"Collection/{collectionId}");
         }
+
+        [HttpPost]
+        public ActionResult DeleteUser(string userId)
+        {
+          ApplicationUser u = new ApplicationUser { Id = userId };
+          db.Entry(u).State = System.Data.Entity.EntityState.Deleted;
+          db.SaveChanges();
+          return RedirectToAction($"Admin/{userId}");
+
+        }
+
     }
 }
