@@ -53,7 +53,7 @@ namespace WebApplication2
             // Настройка логики проверки паролей
             manager.PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 6,
+                RequiredLength = 1,
                 RequireNonLetterOrDigit = false,
                 RequireDigit = false,
                 RequireLowercase = false,
